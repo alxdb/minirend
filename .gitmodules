@@ -1,0 +1,3 @@
+[submodule "lib/gloo"]
+	path = lib/gloo
+	url = https://gitlab.com/alxdavbr/gloo
