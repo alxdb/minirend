@@ -1,5 +1,3 @@
 # Minirend
 
-A tiny renderer, barely and abstraction over opengl.
-
-Provides a Renderable abstract class for creating renderable objects.
+A Little renderer, wraps up a lot of bootstrap code for writing openGL.
