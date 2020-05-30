@@ -1,7 +1,6 @@
 #include <iostream>
 #include <memory>
 
-#include <glm/glm.hpp>
 #include <gloo.hpp>
 #include <minirend.hpp>
 
@@ -20,7 +19,11 @@ private:
   void setup() override {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glfwSwapInterval(1);
-    glm::mat3x4 triangle_points = {{-0.5, -0.5, 0.0, 1.0}, {0.5, -0.5, 0.0, 1.0}, {0.0, 0.5, 0.0, 1.0}};
+    std::vector<std::array<float, 4>> triangle_points = {
+        {-0.5, -0.5, 0.0, 1.0},
+        {+0.5, -0.5, 0.0, 1.0},
+        {+0.0, +0.5, 0.0, 1.0},
+    };
     std::ifstream vert_shader_file("examples/resources/triangle.vert");
     std::ifstream frag_shader_file("examples/resources/triangle.frag");
     program = std::unique_ptr<Program>(new Program(vert_shader_file, frag_shader_file));
