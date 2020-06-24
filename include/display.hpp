@@ -13,6 +13,7 @@ public:
   const std::pair<int, int>& window_size = m_window_size;
   const std::pair<int, int>& framebuffer_size = m_framebuffer_size;
   const bool& should_close = m_should_close;
+  GLFWwindow* const& glfw_window_ptr = m_glfw_window_ptr;
 
   Display(const std::string& title, std::pair<int, int> window_size);
   Display(const Display&) = delete;
@@ -20,16 +21,13 @@ public:
   Display(Display&&);
   ~Display();
 
-  void swap_buffers() { glfwSwapBuffers(glfw_window_ptr); }
-  void make_current() { glfwMakeContextCurrent(glfw_window_ptr); }
-
 private:
   static int display_instances;
 
   std::pair<int, int> m_window_size;
   std::pair<int, int> m_framebuffer_size;
   bool m_should_close = false;
-  GLFWwindow* glfw_window_ptr;
+  GLFWwindow* m_glfw_window_ptr;
 };
 
 } // namespace minirend

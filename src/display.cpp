@@ -16,37 +16,36 @@ Display::Display(const std::string& title, std::pair<int, int> window_size) : ti
     });
 
     if (!glfwInit()) throw std::runtime_error("GLFW init failed");
-
-    glfwSetWindowCloseCallback(glfw_window_ptr, [](GLFWwindow* window) {
-      static_cast<Display*>(glfwGetWindowUserPointer(window))->m_should_close = true;
-    });
-    glfwSetWindowSizeCallback(glfw_window_ptr, [](GLFWwindow* window, int width, int height) {
-      static_cast<Display*>(glfwGetWindowUserPointer(window))->m_window_size = {width, height};
-    });
-    glfwSetFramebufferSizeCallback(glfw_window_ptr, [](GLFWwindow* window, int width, int height) {
-      static_cast<Display*>(glfwGetWindowUserPointer(window))->m_framebuffer_size = {width, height};
-    });
   }
+  m_glfw_window_ptr = glfwCreateWindow(window_size.first, window_size.second, title.c_str(), nullptr, nullptr);
+  if (!m_glfw_window_ptr) throw std::runtime_error("GLFW window creation failed");
 
-  glfw_window_ptr = glfwCreateWindow(window_size.first, window_size.second, title.c_str(), nullptr, nullptr);
-  if (!glfw_window_ptr) throw std::runtime_error("GLFW window creation failed");
+  glfwSetWindowUserPointer(m_glfw_window_ptr, this);
 
-  glfwSetWindowUserPointer(glfw_window_ptr, this);
+  glfwSetWindowCloseCallback(m_glfw_window_ptr, [](GLFWwindow* window) {
+    static_cast<Display*>(glfwGetWindowUserPointer(window))->m_should_close = true;
+  });
+  glfwSetWindowSizeCallback(m_glfw_window_ptr, [](GLFWwindow* window, int width, int height) {
+    static_cast<Display*>(glfwGetWindowUserPointer(window))->m_window_size = {width, height};
+  });
+  glfwSetFramebufferSizeCallback(m_glfw_window_ptr, [](GLFWwindow* window, int width, int height) {
+    static_cast<Display*>(glfwGetWindowUserPointer(window))->m_framebuffer_size = {width, height};
+  });
 
-  glfwGetWindowSize(glfw_window_ptr, &m_window_size.first, &m_window_size.second);
-  glfwGetFramebufferSize(glfw_window_ptr, &m_framebuffer_size.first, &m_framebuffer_size.second);
+  glfwGetWindowSize(m_glfw_window_ptr, &m_window_size.first, &m_window_size.second);
+  glfwGetFramebufferSize(m_glfw_window_ptr, &m_framebuffer_size.first, &m_framebuffer_size.second);
 }
 
 Display::Display(Display&& other)
     : title(other.title), m_window_size(other.m_window_size), m_should_close(other.m_should_close),
-      glfw_window_ptr(other.glfw_window_ptr) {
-  other.glfw_window_ptr = nullptr;
-  glfwSetWindowUserPointer(glfw_window_ptr, this);
+      m_glfw_window_ptr(other.m_glfw_window_ptr) {
+  other.m_glfw_window_ptr = nullptr;
+  glfwSetWindowUserPointer(m_glfw_window_ptr, this);
 }
 
 Display::~Display() {
-  if (glfw_window_ptr != nullptr) {
-    glfwDestroyWindow(glfw_window_ptr);
+  if (m_glfw_window_ptr != nullptr) {
+    glfwDestroyWindow(m_glfw_window_ptr);
     if (--display_instances == 0) glfwTerminate();
   }
 }

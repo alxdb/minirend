@@ -3,4 +3,5 @@ ColumnLimit: 120
 PointerAlignment: Left
 AllowShortBlocksOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: true
+AlwaysBreakTemplateDeclarations: 'Yes'
 BinPackArguments: true

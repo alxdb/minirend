@@ -4,3 +4,4 @@
 #include <GLFW/glfw3.h>
 
 #include "app.hpp"
+#include "renderable.hpp"
