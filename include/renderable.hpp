@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include <gloo.hpp>
 
 #include <vector>
@@ -8,16 +9,9 @@ namespace minirend {
 
 class Renderable {
 public:
-  const std::vector<VBO>& vbos = m_vbos;
-
-  Renderable(const Program& program, std::vector<std::pair<VBO, VertexAttrib>>&& vbos);
-
-  void render(GLenum mode, int first, size_t count);
-
-private:
-  const Program& m_program;
-  VAO m_vao;
-  std::vector<VBO> m_vbos;
+  Renderable(){};
+  virtual void render() = 0;
+  virtual ~Renderable(){};
 };
 
 } // namespace minirend
